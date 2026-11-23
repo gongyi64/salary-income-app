@@ -4,6 +4,8 @@ from tkinter import ttk, messagebox
 from calculator import calculate_salary_income_deduction
 
 
+
+
 def calculate():
     """画面に入力された給与収入から給与所得を計算する。"""
 
@@ -35,7 +37,12 @@ def calculate():
         )
         return
 
-    deduction = calculate_salary_income_deduction(salary)
+    year = int(year_var.get())
+
+    deduction = calculate_salary_income_deduction(
+        salary,
+        year,
+    )
 
     # 控除額が給与収入を超えないようにする
     deduction = min(deduction, salary)
@@ -69,6 +76,9 @@ root.geometry("500x380")
 root.resizable(False, False)
 
 
+year_var = tk.StringVar(value="2026")
+
+
 # =========================================================
 # タイトル
 # =========================================================
@@ -97,13 +107,51 @@ input_frame = ttk.Frame(root)
 input_frame.pack(pady=5)
 
 
+year_label = ttk.Label(
+    input_frame,
+    text="対象年度",
+    font=("Yu Gothic UI", 11)
+)
+year_label.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10
+)
+
+year_combo = ttk.Combobox(
+    input_frame,
+    textvariable=year_var,
+    values=("2025", "2026"),
+    state="readonly",
+    width=17,
+    font=("Yu Gothic UI", 11)
+)
+year_combo.grid(
+    row=0,
+    column=1,
+    padx=5,
+    pady=10
+)
+
+ttk.Label(
+    input_frame,
+    text="年",
+    font=("Yu Gothic UI", 11)
+).grid(
+    row=0,
+    column=2,
+    padx=5
+)
+
+
 salary_label = ttk.Label(
     input_frame,
     text="給与収入",
     font=("Yu Gothic UI", 11)
 )
 salary_label.grid(
-    row=0,
+    row=1,
     column=0,
     padx=10,
     pady=10
@@ -117,7 +165,7 @@ salary_entry = ttk.Entry(
     font=("Yu Gothic UI", 12)
 )
 salary_entry.grid(
-    row=0,
+    row=1,
     column=1,
     padx=5,
     pady=10
@@ -130,7 +178,7 @@ yen_label = ttk.Label(
     font=("Yu Gothic UI", 11)
 )
 yen_label.grid(
-    row=0,
+    row=1,
     column=2,
     padx=5
 )
